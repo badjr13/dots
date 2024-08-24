@@ -1,5 +1,6 @@
 pub mod deploy;
 pub mod destroy;
+pub mod manifest;
 pub mod track;
 
 use clap_builder::Command;
@@ -12,4 +13,5 @@ pub fn root() -> Command {
         .subcommand(track::command())
         .subcommand(deploy::command())
         .subcommand(destroy::command())
+        .subcommand(manifest::command())
 }
