@@ -1,5 +1,6 @@
 mod cli;
 
 fn main() {
-    cli::root().get_matches();
+    let x = cli::root().get_matches();
+    dbg!(x);
 }
