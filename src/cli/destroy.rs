@@ -1,5 +1,10 @@
-use clap_builder::Command;
+use super::DESTROY;
+use clap_builder::{ArgMatches, Command};
 
 pub fn command() -> Command {
-    Command::new("destroy").about("Remove all deployed items from last deployed location")
+    Command::new(DESTROY).about("Remove all deployed items from last deployed location")
+}
+
+pub fn handle_matches(matches: &ArgMatches) {
+    dbg!(matches);
 }

@@ -1,7 +1,8 @@
-use clap_builder::{Arg, Command};
+use super::TRACK;
+use clap_builder::{Arg, ArgMatches, Command};
 
 pub fn command() -> Command {
-    Command::new("track")
+    Command::new(TRACK)
         .about("Track everything in current working directory")
         .arg(
             Arg::new("items")
@@ -9,4 +10,8 @@ pub fn command() -> Command {
                 .num_args(1..)
                 .exclusive(true),
         )
+}
+
+pub fn handle_matches(matches: &ArgMatches) {
+    dbg!(matches);
 }
