@@ -1,5 +1,7 @@
+use anyhow::Result;
 mod cli;
 
-fn main() {
-    cli::execute();
+fn main() -> Result<()> {
+    cli::execute()?;
+    Ok(())
 }

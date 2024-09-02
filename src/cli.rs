@@ -1,3 +1,4 @@
+use anyhow::Result;
 pub mod deploy;
 pub mod destroy;
 pub mod manifest;
@@ -10,7 +11,7 @@ const DEPLOY: &str = "deploy";
 const DESTROY: &str = "destroy";
 const MANIFEST: &str = "manifest";
 
-pub fn execute() {
+pub fn execute() -> Result<()> {
     let matches = Command::new("dots")
         .author("badjr13")
         .version(env!("CARGO_PKG_VERSION"))
@@ -21,12 +22,13 @@ pub fn execute() {
         .subcommand(manifest::command())
         .get_matches();
 
-    handle_matches(&matches);
+    handle_matches(&matches)?;
+    Ok(())
 }
 
-fn handle_matches(matches: &ArgMatches) {
+fn handle_matches(matches: &ArgMatches) -> Result<()> {
     if let Some(track_matches) = matches.subcommand_matches(TRACK) {
-        track::handle_matches(track_matches);
+        track::handle_matches(track_matches)?;
     }
 
     if let Some(deploy_matches) = matches.subcommand_matches(DEPLOY) {
@@ -40,4 +42,6 @@ fn handle_matches(matches: &ArgMatches) {
     if let Some(manifest_matches) = matches.subcommand_matches("manifest") {
         manifest::handle_matches(manifest_matches)
     }
+
+    Ok(())
 }
