@@ -31,16 +31,16 @@ fn handle_matches(matches: &ArgMatches) -> Result<()> {
         track::handle_matches(track_matches)?;
     }
 
-    if let Some(deploy_matches) = matches.subcommand_matches(DEPLOY) {
-        deploy::handle_matches(deploy_matches)
+    if let Some(_) = matches.subcommand_matches(DEPLOY) {
+        deploy::handle_matches();
     }
 
-    if let Some(destroy_matches) = matches.subcommand_matches(DESTROY) {
-        destroy::handle_matches(destroy_matches)
+    if let Some(_) = matches.subcommand_matches(DESTROY) {
+        destroy::handle_matches();
     }
 
     if let Some(manifest_matches) = matches.subcommand_matches("manifest") {
-        manifest::handle_matches(manifest_matches)
+        manifest::handle_matches(manifest_matches)?;
     }
 
     Ok(())

@@ -1,10 +1,34 @@
 use super::MANIFEST;
-use clap_builder::{ArgMatches, Command};
+use anyhow::Result;
+use clap_builder::{Arg, ArgAction, ArgMatches, Command};
 
 pub fn command() -> Command {
-    Command::new(MANIFEST).about("Manage your manifest file")
+    Command::new(MANIFEST)
+        .about("Manage your manifest file")
+        .arg(
+            Arg::new("show")
+                .help("Show current manifest file")
+                .short('s')
+                .long("show")
+                .action(ArgAction::SetTrue),
+        )
+        .arg(
+            Arg::new("edit")
+                .help("Manully edit the manifest file")
+                .short('e')
+                .long("edit")
+                .action(ArgAction::SetTrue),
+        )
 }
 
-pub fn handle_matches(matches: &ArgMatches) {
-    dbg!(matches);
+pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
+    if let Some(show) = matches.get_one::<bool>("show") {
+        println!("Show manifest: {show}")
+    }
+
+    if let Some(edit) = matches.get_one::<bool>("edit") {
+        println!("Print manifest: {edit}")
+    }
+
+    Ok(())
 }
