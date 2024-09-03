@@ -23,6 +23,7 @@ pub fn execute() -> Result<()> {
         .get_matches();
 
     handle_matches(&matches)?;
+
     Ok(())
 }
 
@@ -31,11 +32,11 @@ fn handle_matches(matches: &ArgMatches) -> Result<()> {
         track::handle_matches(track_matches)?;
     }
 
-    if let Some(_) = matches.subcommand_matches(DEPLOY) {
+    if matches.subcommand_matches(DEPLOY).is_some() {
         deploy::handle_matches();
     }
 
-    if let Some(_) = matches.subcommand_matches(DESTROY) {
+    if matches.subcommand_matches(DESTROY).is_some() {
         destroy::handle_matches();
     }
 
