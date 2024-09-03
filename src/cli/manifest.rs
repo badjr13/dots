@@ -4,17 +4,17 @@ use clap_builder::{Arg, ArgAction, ArgMatches, Command};
 
 pub fn command() -> Command {
     Command::new(MANIFEST)
-        .about("Manage your manifest file")
+        .about("View and edit manifest file")
         .arg(
             Arg::new("show")
-                .help("Show current manifest file")
+                .help("Show manifest file")
                 .short('s')
                 .long("show")
                 .action(ArgAction::SetTrue),
         )
         .arg(
             Arg::new("edit")
-                .help("Manully edit the manifest file")
+                .help("Edit manifest file")
                 .short('e')
                 .long("edit")
                 .action(ArgAction::SetTrue),
@@ -27,7 +27,7 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
     }
 
     if let Some(edit) = matches.get_one::<bool>("edit") {
-        println!("Print manifest: {edit}")
+        println!("Edit manifest: {edit}")
     }
 
     Ok(())

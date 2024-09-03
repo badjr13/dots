@@ -3,14 +3,12 @@ use anyhow::Result;
 use clap_builder::{Arg, ArgMatches, Command};
 
 pub fn command() -> Command {
-    Command::new(TRACK)
-        .about("Track everything in current working directory")
-        .arg(
-            Arg::new("items")
-                .help("Items to track")
-                .num_args(1..)
-                .exclusive(true),
-        )
+    Command::new(TRACK).about("Track items to be deployed").arg(
+        Arg::new("items")
+            .help("Items to track")
+            .num_args(1..)
+            .exclusive(true),
+    )
 }
 
 pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
