@@ -40,7 +40,7 @@ fn handle_matches(matches: &ArgMatches) -> Result<()> {
         destroy::handle_matches();
     }
 
-    if let Some(manifest_matches) = matches.subcommand_matches("manifest") {
+    if let Some(manifest_matches) = matches.subcommand_matches(MANIFEST) {
         manifest::handle_matches(manifest_matches)?;
     }
 
