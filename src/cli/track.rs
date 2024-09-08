@@ -17,7 +17,15 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
         .unwrap_or_default()
         .collect();
 
-    println!("Items to track: {:#?}", items);
+    if items.is_empty() {
+        println!("Items to be tracked must be passed.")
+    }
+
+    if items.contains(&&String::from(".")) {
+        println!("Track all items");
+    } else {
+        println!("Track these items: {:?}", items);
+    }
 
     Ok(())
 }
