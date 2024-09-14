@@ -14,14 +14,14 @@ pub fn command() -> Command {
 pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
     let items: Vec<_> = matches
         .get_many::<String>("items")
-        .unwrap_or_default()
-        .collect();
+        .map(|x| x.cloned().collect())
+        .unwrap_or_default();
 
     if items.is_empty() {
         println!("Items to be tracked must be passed.")
     }
 
-    if items.contains(&&String::from(".")) {
+    if items.contains(&String::from(".")) {
         println!("Track all items");
     } else {
         println!("Track these items: {:?}", items);
