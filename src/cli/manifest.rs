@@ -1,6 +1,6 @@
 use super::MANIFEST;
-use anyhow::Result;
 use clap_builder::{Arg, ArgAction, ArgMatches, Command};
+use color_eyre::eyre::Result;
 
 pub fn command() -> Command {
     Command::new(MANIFEST)

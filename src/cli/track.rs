@@ -1,6 +1,6 @@
 use super::TRACK;
-use anyhow::Result;
 use clap_builder::{Arg, ArgMatches, Command};
+use color_eyre::eyre::Result;
 
 pub fn command() -> Command {
     Command::new(TRACK).about("Track items to be deployed").arg(
@@ -18,14 +18,22 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
         .unwrap_or_default();
 
     if items.is_empty() {
-        println!("Items to be tracked must be passed.")
-    }
-
-    if items.contains(&String::from(".")) {
+        println!("Pass in items to track or pass in '.' to track all items in current working directory.");
+    } else if items.contains(&String::from(".")) {
         println!("Track all items");
     } else {
         println!("Track these items: {:?}", items);
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn handle_matches() {
+        assert_eq!(1, 1);
+    }
 }
