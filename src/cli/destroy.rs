@@ -6,9 +6,5 @@ pub fn command() -> Command {
 }
 
 pub fn handle_matches() {
-    destroy();
-}
-
-fn destroy() {
-    println!("Destroying dot files");
+    dbg!(DESTROY);
 }

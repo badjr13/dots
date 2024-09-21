@@ -23,7 +23,7 @@ pub fn execute() {
 
 fn handle_matches(matches: &ArgMatches) {
     if matches.subcommand_matches(INIT).is_some() {
-        deploy::handle_matches();
+        init::handle_matches();
     }
 
     if matches.subcommand_matches(DEPLOY).is_some() {
