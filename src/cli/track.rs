@@ -1,6 +1,7 @@
 use super::TRACK;
 use clap_builder::{Arg, ArgMatches, Command};
 use color_eyre::eyre::Result;
+use std::fs;
 
 pub fn command() -> Command {
     Command::new(TRACK).about("Track items to be deployed").arg(
@@ -20,6 +21,9 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
     if items.is_empty() {
         println!("Pass in items to track or pass in '.' to track all items in current working directory.");
     } else if items.contains(&String::from(".")) {
+        for entry in fs::read_dir(".")? {
+            println!("{:?}", entry?.path());
+        }
         println!("Track all items");
     } else {
         println!("Track these items: {:?}", items);
@@ -30,8 +34,6 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[test]
     fn handle_matches() {
         assert_eq!(1, 1);
