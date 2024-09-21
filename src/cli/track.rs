@@ -1,7 +1,7 @@
 use super::TRACK;
 use clap_builder::{Arg, ArgMatches, Command};
 use color_eyre::eyre::Result;
-use std::fs;
+use std::fs::{canonicalize, read_dir};
 
 pub fn command() -> Command {
     Command::new(TRACK).about("Track items to be deployed").arg(
@@ -24,8 +24,8 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
     }
 
     if items.len() == 1 && items[0] == "." {
-        for entry in fs::read_dir(".")? {
-            let absolute_path = fs::canonicalize(entry?.path())?;
+        for entry in read_dir(".")? {
+            let absolute_path = canonicalize(entry?.path())?;
             println!("{:?}", absolute_path);
         }
     }
