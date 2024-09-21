@@ -13,29 +13,30 @@ pub fn command() -> Command {
 }
 
 pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
+    // items represent a directory or file to be tracked
     let items: Vec<_> = matches
         .get_many::<String>("items")
         .map(|x| x.cloned().collect())
         .unwrap_or_default();
 
     if items.is_empty() {
-        println!("Pass in items to track or pass in '.' to track all items in current working directory.");
-    } else if items.contains(&String::from(".")) {
+        println!("Pass in items to track or pass in '.' to track all items in the current working directory.");
+    }
+
+    if items.len() == 1 && items[0] == "." {
         for entry in fs::read_dir(".")? {
-            println!("{:?}", entry?.path());
+            let absolute_path = fs::canonicalize(entry?.path())?;
+            println!("{:?}", absolute_path);
         }
-        println!("Track all items");
-    } else {
+    }
+
+    if items.len() > 1 && items.contains(&String::from(".")) {
+        println!("A '.' may only be passed by itself.");
+    }
+
+    if items.len() >= 1 && !items.contains(&String::from(".")) {
         println!("Track these items: {:?}", items);
     }
 
     Ok(())
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn handle_matches() {
-        assert_eq!(1, 1);
-    }
 }
