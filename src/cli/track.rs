@@ -26,7 +26,7 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
     if items.len() == 1 && items[0] == "." {
         for entry in read_dir(".")? {
             let absolute_path = canonicalize(entry?.path())?;
-            println!("{:?}", absolute_path);
+            println!("{absolute_path:?}");
         }
     }
 
@@ -34,8 +34,8 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
         println!("A '.' may only be passed by itself.");
     }
 
-    if items.len() >= 1 && !items.contains(&String::from(".")) {
-        println!("Track these items: {:?}", items);
+    if !items.is_empty() && !items.contains(&String::from(".")) {
+        println!("Track these items: {items:?}");
     }
 
     Ok(())

@@ -41,7 +41,7 @@ fn handle_matches(matches: &ArgMatches) -> Result<()> {
     }
 
     if let Some(manifest_matches) = matches.subcommand_matches(MANIFEST) {
-        manifest::handle_matches(manifest_matches)?;
+        manifest::handle_matches(manifest_matches);
     }
 
     Ok(())

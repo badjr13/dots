@@ -1,6 +1,5 @@
 use super::MANIFEST;
 use clap_builder::{Arg, ArgAction, ArgMatches, Command};
-use color_eyre::eyre::Result;
 
 pub fn command() -> Command {
     Command::new(MANIFEST)
@@ -21,14 +20,12 @@ pub fn command() -> Command {
         )
 }
 
-pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
+pub fn handle_matches(matches: &ArgMatches) {
     if let Some(show) = matches.get_one::<bool>("show") {
-        println!("Show manifest: {show}")
+        println!("Show manifest: {show}");
     }
 
     if let Some(edit) = matches.get_one::<bool>("edit") {
-        println!("Edit manifest: {edit}")
+        println!("Edit manifest: {edit}");
     }
-
-    Ok(())
 }
