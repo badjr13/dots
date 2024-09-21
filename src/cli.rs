@@ -1,35 +1,29 @@
-use color_eyre::eyre::Result;
 pub mod deploy;
 pub mod destroy;
-pub mod manifest;
-pub mod track;
+pub mod init;
 
 use clap_builder::{ArgMatches, Command};
 
-const TRACK: &str = "track";
+const INIT: &str = "init";
 const DEPLOY: &str = "deploy";
 const DESTROY: &str = "destroy";
-const MANIFEST: &str = "manifest";
 
-pub fn execute() -> Result<()> {
+pub fn execute() {
     let matches = Command::new("dots")
         .author("badjr13")
         .version(env!("CARGO_PKG_VERSION"))
         .about("A dead simple dotfile manager")
-        .subcommand(track::command())
+        .subcommand(init::command())
         .subcommand(deploy::command())
         .subcommand(destroy::command())
-        .subcommand(manifest::command())
         .get_matches();
 
-    handle_matches(&matches)?;
-
-    Ok(())
+    handle_matches(&matches);
 }
 
-fn handle_matches(matches: &ArgMatches) -> Result<()> {
-    if let Some(track_matches) = matches.subcommand_matches(TRACK) {
-        track::handle_matches(track_matches)?;
+fn handle_matches(matches: &ArgMatches) {
+    if matches.subcommand_matches(INIT).is_some() {
+        deploy::handle_matches();
     }
 
     if matches.subcommand_matches(DEPLOY).is_some() {
@@ -39,10 +33,4 @@ fn handle_matches(matches: &ArgMatches) -> Result<()> {
     if matches.subcommand_matches(DESTROY).is_some() {
         destroy::handle_matches();
     }
-
-    if let Some(manifest_matches) = matches.subcommand_matches(MANIFEST) {
-        manifest::handle_matches(manifest_matches);
-    }
-
-    Ok(())
 }
