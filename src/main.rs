@@ -2,7 +2,9 @@
 #![warn(clippy::nursery)]
 
 mod cli;
+use color_eyre::eyre::Result;
 
-fn main() {
-    cli::execute();
+fn main() -> Result<()> {
+    cli::execute()?;
+    Ok(())
 }
