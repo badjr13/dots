@@ -13,7 +13,9 @@ pub fn command() -> Command {
 pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
     if let Some(path) = matches.get_one::<String>("path") {
         if Path::new(path).exists() {
-            fs::File::create("manifest.json")?;
+            let mut absolute_path = fs::canonicalize(path)?;
+            absolute_path.push("manifest.toml");
+            fs::File::create(absolute_path)?;
         } else {
             println!("Please supply an existing path. '.' can be used to initalize the current working directory.");
         }
