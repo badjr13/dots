@@ -14,11 +14,12 @@ pub fn command() -> Command {
 }
 
 pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
-    if let Some(path) = matches.get_one::<String>("path") {
-        if Path::new(path).exists() {
-            let absolute_path = canonicalize(path)?;
-            let manifest_file = create_manifest(&absolute_path)?;
-            track_initial_items(&absolute_path, &manifest_file)?;
+    if let Some(path_to_track) = matches.get_one::<String>("path") {
+        if Path::new(path_to_track).exists() {
+            let absolute_path_to_track = canonicalize(path_to_track)?;
+            if let Some(manifest_file) = create_manifest(&absolute_path_to_track) {
+                track_initial_items(&absolute_path_to_track, &manifest_file)?;
+            }
         } else {
             println!("Please supply an existing path. '.' can be used to initalize the current working directory.");
         }
@@ -27,16 +28,21 @@ pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
     Ok(())
 }
 
-fn create_manifest(path: &Path) -> Result<File> {
+fn create_manifest(path: &Path) -> Option<File> {
     let full_path = path.join(MANIFEST_FILE);
 
-    let manifest_file = OpenOptions::new()
-        .write(true)
-        .append(true)
-        .create(true)
-        .open(full_path)?;
-
-    Ok(manifest_file)
+    if full_path.exists() {
+        println!("WOW");
+        None
+    } else {
+        let manifest_file = OpenOptions::new()
+            .write(true)
+            .append(true)
+            .create(true)
+            .open(full_path)
+            .unwrap();
+        Some(manifest_file)
+    }
 }
 
 fn track_initial_items(path: &Path, mut file: &File) -> Result<()> {
