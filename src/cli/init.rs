@@ -5,7 +5,7 @@ use std::fs::{canonicalize, read_dir, File, OpenOptions};
 use std::io::Write;
 use std::path::Path;
 
-const MANIFEST_FILE: &str = "manifest.toml";
+const MANIFEST_FILE: &str = ".dots-manifest.toml";
 
 pub fn command() -> Command {
     Command::new(INIT)
@@ -15,14 +15,20 @@ pub fn command() -> Command {
 
 pub fn handle_matches(matches: &ArgMatches) -> Result<()> {
     if let Some(path_to_track) = matches.get_one::<String>("path") {
-        if Path::new(path_to_track).exists() {
-            let absolute_path_to_track = canonicalize(path_to_track)?;
-            if let Some(manifest_file) = create_manifest(&absolute_path_to_track) {
-                track_initial_items(&absolute_path_to_track, &manifest_file)?;
-            }
-        } else {
-            println!("Please supply an existing path. '.' can be used to initalize the current working directory.");
+        handle_match_path(path_to_track)?;
+    }
+
+    Ok(())
+}
+
+fn handle_match_path(path_to_track: &String) -> Result<()> {
+    if Path::new(path_to_track).exists() {
+        let absolute_path_to_track = canonicalize(path_to_track)?;
+        if let Some(manifest_file) = create_manifest(&absolute_path_to_track) {
+            track_initial_items(&absolute_path_to_track, &manifest_file)?;
         }
+    } else {
+        println!("Please supply an existing path. '.' can be used to initalize the current working directory.");
     }
 
     Ok(())
@@ -32,16 +38,13 @@ fn create_manifest(path: &Path) -> Option<File> {
     let full_path = path.join(MANIFEST_FILE);
 
     if full_path.exists() {
-        println!("WOW");
-        None
-    } else {
-        let manifest_file = OpenOptions::new()
-            .write(true)
-            .append(true)
-            .create(true)
-            .open(full_path)
-            .unwrap();
-        Some(manifest_file)
+        println!("Checking for new items to be tracked.");
+        return None;
+    }
+
+    match OpenOptions::new().append(true).create(true).open(full_path) {
+        Ok(manifest_file) => Some(manifest_file),
+        _ => None,
     }
 }
 

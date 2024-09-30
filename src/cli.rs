@@ -30,11 +30,11 @@ fn handle_matches(matches: &ArgMatches) -> Result<()> {
     }
 
     if let Some(deploy_matches) = matches.subcommand_matches(DEPLOY) {
-        deploy::handle_matches(deploy_matches)?;
+        deploy::handle_matches(deploy_matches);
     }
 
     if let Some(destroy_matches) = matches.subcommand_matches(DESTROY) {
-        destroy::handle_matches(destroy_matches)?;
+        destroy::handle_matches(destroy_matches);
     }
 
     Ok(())
