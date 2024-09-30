@@ -42,10 +42,11 @@ fn create_manifest(path: &Path) -> Option<File> {
         return None;
     }
 
-    match OpenOptions::new().append(true).create(true).open(full_path) {
-        Ok(manifest_file) => Some(manifest_file),
-        _ => None,
-    }
+    OpenOptions::new()
+        .append(true)
+        .create(true)
+        .open(full_path)
+        .ok()
 }
 
 fn track_initial_items(path: &Path, mut file: &File) -> Result<()> {
