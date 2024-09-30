@@ -28,7 +28,7 @@ fn handle_match_path(path_to_track: &String) -> Result<()> {
             track_initial_items(&absolute_path_to_track, &manifest_file)?;
         }
     } else {
-        println!("Please supply an existing path. '.' can be used to initalize the current working directory.");
+        println!("Please supply an existing path. '.' can be used to initialize the current working directory.");
     }
 
     Ok(())
